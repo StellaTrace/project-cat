@@ -11,14 +11,12 @@ bot = commands.Bot(command_prefix= '초다 ', intents=intents, status=discord.St
 async def on_ready():
     print(f'We have logged in as {bot.user}')
     
-@bot.command(aliases=['도움말', 'h'])
+@bot.command(aliases=['도움말'])
 async def 도움(ctx):
     embed = discord.Embed(title="poskBot", description="설명", color=0x4432a8)
-    embed.add_field(name="인사하기", value="phello", inline=False)
-    embed.add_field(name="주사위", value="proll", inline=False)
-    embed.add_field(name="음성채널 입장", value="pplay", inline=False)
-    embed.add_field(name="노래 일시중지", value="ppause", inline=False)
-    embed.add_field(name="음성채널 나가기", value="pleave", inline=False)
+    embed.add_field(name="음성채널 입장", value="초다 play", inline=False)
+    embed.add_field(name="노래 일시중지", value="초다 pause", inline=False)
+    embed.add_field(name="음성채널 나가기", value="초다 leave", inline=False)
     await ctx.send(embed=embed)
 
 @bot.command(aliases=['정보'])
@@ -93,6 +91,6 @@ async def play(ctx, url):
 
 @play.error
 async def play(ctx,error):
-    await ctx.send(f'URL 링크가 잘못되었거나, 다운로드에 오류가 났.')
+    await ctx.send(f'URL 링크가 잘못되었거나, 다운로드에 오류가 났다냥.')
 
 bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GxxUKx.PK6j3NxMryHTf1a8KzEITqSqZL-HUtc8Jo33bc')
