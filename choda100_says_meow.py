@@ -1,5 +1,6 @@
-import discord, asyncio
+import discord, asyncio, os
 import youtube_dl
+import ffmpeg
 from discord.ext import commands
 
 intents = discord.Intents.all()
@@ -9,6 +10,16 @@ bot = commands.Bot(command_prefix= '초다 ', intents=intents, status=discord.St
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
+    
+@bot.command(aliases=['도움말', 'h'])
+async def 도움(ctx):
+    embed = discord.Embed(title="poskBot", description="설명", color=0x4432a8)
+    embed.add_field(name="인사하기", value="phello", inline=False)
+    embed.add_field(name="주사위", value="proll", inline=False)
+    embed.add_field(name="음성채널 입장", value="pplay", inline=False)
+    embed.add_field(name="노래 일시중지", value="ppause", inline=False)
+    embed.add_field(name="음성채널 나가기", value="pleave", inline=False)
+    await ctx.send(embed=embed)
 
 @bot.command(aliases=['정보'])
 async def informationofchoda(ctx):
