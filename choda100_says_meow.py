@@ -1,4 +1,5 @@
 import discord, asyncio
+import youtube_dl
 from discord.ext import commands
 
 intents = discord.Intents.all()
@@ -20,6 +21,67 @@ async def informationofchodayoutubechennel(ctx):
 @bot.command(aliases=['또다른유튜브채널'])
 async def informationofchodasecondyoutubechennel(ctx):
     await ctx.send(f'{ctx.author.mention}, https://www.youtube.com/channel/UC1JEORrM7oPouwxoYeRKmjA')
+    
+@bot.command(aliases=['디스코드 서버'])
+async def informationofchodadiscordserver(ctx):
+    await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
+@bot.command()
+async def join(ctx):
+    channel = ctx.author.voice.channel
+    await channel.connect()
+    await ctx.send("음성채널에 접속중")
+
+@join.error
+async def join(ctx,error):
+    await ctx.send(f'{ctx.author.mention}님이 음성채널에 접속중이 아니다냥.') #when voice channel doesn't joined(?)
+
+@bot.command()
+async def leave(ctx):
+    await bot.voice_clients[0].disconnect()
+    await ctx.send("음성채널에서 나갔다냥.")
+
+@leave.error
+async def leave(ctx,error):
+    await ctx.send(f'{ctx.author.mention} 이미 음성채널에서 나갔다냥.')
+
+@bot.command()
+async def pause(ctx):
+    if not bot.voice_clients[0].is_paused():
+        bot.voice_clients[0].pause()
+    else:
+        await ctx.send("이미 일시중지 됐다냥.")
+@bot.command()
+async def resume(ctx):
+    if bot.voice_clients[0].is_paused():
+        bot.voice_clients[0].resume()
+    else:
+       await ctx.send("이미 재시작 됐다냥.")
+
+@bot.command()
+async def stop(ctx):
+    if bot.voice_clients[0].is_playing():
+        bot.voice_clients[0].stop()
+    else:
+        await ctx.send("노래가 플레이중이 아니다냥.")
+
+@bot.command()
+async def play(ctx, url):
+    channel = ctx.author.voice.channel
+    if bot.voice_clients == []:
+    	await channel.connect()
+    	await ctx.send("해당 채널에 접속했다냥 -> " + str(bot.voice_clients[0].channel))
+
+    ydl_opts = {'format': 'bestaudio'}
+    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        URL = info['formats'][0]['url']
+    voice = bot.voice_clients[0]
+    voice.play(discord.FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+
+@play.error
+async def play(ctx,error):
+    await ctx.send(f'URL 링크가 잘못되었거나, 다운로드에 오류가 났.')
 
 bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GxxUKx.PK6j3NxMryHTf1a8KzEITqSqZL-HUtc8Jo33bc')
