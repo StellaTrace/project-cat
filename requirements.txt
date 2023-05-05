@@ -9,3 +9,4 @@ idna==3.4
 multidict==6.0.4
 yarl==1.8.2
 youtube_dl==2021.12.17
+ffmpeg==6.0
