@@ -1,11 +1,14 @@
-import discord, asyncio, os
-import youtube_dl
-import ffmpeg
-from discord.ext import commands
+import asyncio
+import discord
+from discord.ext import commands,tasks
+import os
+import youtube_dlc
 
-intents = discord.Intents.all()
+intents = discord.Intents().all()
+client = discord.Client(intents=intents)
+
 game = discord.Game("해킹")
-bot = commands.Bot(command_prefix= '초다 ', intents=intents, status=discord.Status.online, activity=game)
+bot = commands.Bot(command_prefix='초다 ',intents=intents, status=discord.Status.online, activity=game)
 
 @bot.event
 async def on_ready():
@@ -35,62 +38,94 @@ async def informationofchodasecondyoutubechennel(ctx):
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
-@bot.command()
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl = youtube_dlc.YoutubeDL(ytdl_format_options)
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+        self.data = data
+        self.title = data.get('title')
+        self.url = ""
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+        filename = data['title'] if stream else ytdl.prepare_filename(data)
+        return filename
+    
+@bot.command(name='play', help='To play song')
+async def play(ctx,url):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+    async with ctx.typing():
+        filename = await YTDLSource.from_url(url, loop=bot.loop)
+        voice_channel.play(discord.FFmpegPCMAudio(executable = "C:/Users/wjrld/문서/ffmpeg-2023-05-04-git-4006c71d19-full_build/bin/ffmpeg.exe", source=filename))
+    await ctx.send('**Now playing:** {}'.format(filename))
+
+
+@bot.command(name='join', help='Tells the bot to join the voice channel')
 async def join(ctx):
-    channel = ctx.author.voice.channel
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel".format(ctx.message.author.name))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
     await channel.connect()
-    await ctx.send("음성채널에 접속중")
 
-@join.error
-async def join(ctx,error):
-    await ctx.send(f'{ctx.author.mention}님이 음성채널에 접속중이 아니다냥.') #when voice channel doesn't joined(?)
 
-@bot.command()
-async def leave(ctx):
-    await bot.voice_clients[0].disconnect()
-    await ctx.send("음성채널에서 나갔다냥.")
-
-@leave.error
-async def leave(ctx,error):
-    await ctx.send(f'{ctx.author.mention} 이미 음성채널에서 나갔다냥.')
-
-@bot.command()
+@bot.command(name='pause', help='This command pauses the song')
 async def pause(ctx):
-    if not bot.voice_clients[0].is_paused():
-        bot.voice_clients[0].pause()
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        await voice_client.pause()
     else:
-        await ctx.send("이미 일시중지 됐다냥.")
-@bot.command()
+        await ctx.send("The bot is not playing anything at the moment.")
+    
+@bot.command(name='resume', help='Resumes the song')
 async def resume(ctx):
-    if bot.voice_clients[0].is_paused():
-        bot.voice_clients[0].resume()
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_paused():
+        await voice_client.resume()
     else:
-       await ctx.send("이미 재시작 됐다냥.")
+        await ctx.send("The bot was not playing anything before this. Use play_song command")
+    
 
-@bot.command()
+
+@bot.command(name='leave', help='To make the bot leave the voice channel')
+async def leave(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_connected():
+        await voice_client.disconnect()
+    else:
+        await ctx.send("The bot is not connected to a voice channel.")
+
+@bot.command(name='stop', help='Stops the song')
 async def stop(ctx):
-    if bot.voice_clients[0].is_playing():
-        bot.voice_clients[0].stop()
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        await voice_client.stop()
     else:
-        await ctx.send("노래가 플레이중이 아니다냥.")
-
-@bot.command()
-async def play(ctx, url):
-    channel = ctx.author.voice.channel
-    if bot.voice_clients == []:
-    	await channel.connect()
-    	await ctx.send("해당 채널에 접속했다냥 -> " + str(bot.voice_clients[0].channel))
-
-    ydl_opts = {'format': 'bestaudio'}
-    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=False)
-        URL = info['formats'][0]['url']
-    voice = bot.voice_clients[0]
-    voice.play(discord.FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-
-@play.error
-async def play(ctx,error):
-    await ctx.send(f'URL 링크가 잘못되었거나, 다운로드에 오류가 났다냥.')
+        await ctx.send("The bot is not playing anything at the moment.")
 
 bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GxxUKx.PK6j3NxMryHTf1a8KzEITqSqZL-HUtc8Jo33bc')
