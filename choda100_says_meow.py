@@ -125,13 +125,11 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
-
-    embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
-        await ctx.send(embed=embed)
 	
     player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfYI")
     ctx.voice_client.play(player)
-    
+
     embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
         await ctx.send(embed=embed)
+
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
