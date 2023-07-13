@@ -61,7 +61,7 @@ def __init__(self, client):
     self.client = client
     self.DL = YoutubeDL(option)
 
-@commands.command(name ="음악재생")
+@bot.command(aliases=['음악재생'])
 async def play_music(self, ctx, url):
 		#봇의 음성 채널 연결이 없으면
     if ctx.voice_client is None: 
