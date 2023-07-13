@@ -1,6 +1,7 @@
 import asyncio
-
+import paramiko
 import discord
+import curl
 import yt_dlp as youtube_dl
 
 from discord.ext import commands
@@ -65,4 +66,12 @@ async def URL재생(ctx, *, url):
         await ctx.send(embed = discord.Embed(title= "노래 재생", description = "현재 " + url + "을(를) 재생하고 있습니다.", color = 0x00ff00))
     else:
         await ctx.send("노래가 이미 재생되고 있습니다!")
+
+for VAR in 1zAiPdXLPYkikxVnjXR8zcgEGa 1iAwkv1YaVEOi7IGDDHpgY9EB-MUi 1uEQ4XPnm7ZkzLFtTrXb0WfAgi54 1xdocjfDQ88LzLjY9ImzrzUXZB
+do
+    curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=$VAR" > /dev/null
+    curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=$VAR" -o "$VAR.pth"
+done
+rm cookie
+  
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
