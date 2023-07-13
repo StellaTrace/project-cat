@@ -39,4 +39,4 @@ async def informationofchodasecondyoutubechennel(ctx):
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
-bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GxxUKx.PK6j3NxMryHTf1a8KzEITqSqZL-HUtc8Jo33bc')
+bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y')
