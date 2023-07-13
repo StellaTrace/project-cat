@@ -1,7 +1,6 @@
 import asyncio
 import paramiko
 import discord
-import curl
 import yt_dlp as youtube_dl
 import requests
 
@@ -68,8 +67,7 @@ def __init__(self, client):
     self.DL = YoutubeDL(option)
 
 @commands.command(name ="음악재생")
-    async def play_music(self, ctx, url):
-    	# ...
+async def play_music(self, ctx, url):
 
     async def play_music(self, ctx, url):
 		#봇의 음성 채널 연결이 None이면 (없으면)
