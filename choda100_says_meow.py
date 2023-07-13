@@ -87,18 +87,18 @@ await ctx.send(url)
 embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
 await ctx.send(embed=embed)
 
-   data = self.DL.extract_info(url, download = False)
-   link = data['url']
-   title = data['title']
+data = self.DL.extract_info(url, download = False)
+link = data['url']
+title = data['title']
 
-    ffmpeg_options = {
+ffmpeg_options = {
         'options': '-vn',
         "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
     }
-    player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "C:/ffmpeg/bin/ffmpeg")
-    ctx.voice_client.play(player)
+player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "C:/ffmpeg/bin/ffmpeg")
+  ctx.voice_client.play(player)
     
-    embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
+  embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
     await ctx.send(embed=embed)
 
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
