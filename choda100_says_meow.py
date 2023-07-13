@@ -43,30 +43,18 @@ async def informationofchodasecondyoutubechennel(ctx):
 @bot.command(aliases=['디스코드서버'])
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
+    
 @bot.command()
-async def 재생(ctx, *, msg):
-    if not vc.is_playing():
-        global entireText
-        YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
-        FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-            
-        chromedriver_dir = "자신의 경로를 적어주세요!"
-        driver = webdriver.Chrome(chromedriver_dir)
-        driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
-        source = driver.page_source
-        bs = bs4.BeautifulSoup(source, 'lxml')
-        entire = bs.find_all('a', {'id': 'video-title'})
-        entireNum = entire[0]
-        entireText = entireNum.text.strip()
-        musicurl = entireNum.get('href')
-        url = 'https://www.youtube.com'+musicurl 
+async def URL재생(ctx, *, url):
+    YDL_OPTIONS = {'format': 'bestaudio','noplaylist':'True'}
+    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
+    if not vc.is_playing():
         with YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download=False)
         URL = info['formats'][0]['url']
-        await ctx.send(embed = discord.Embed(title= "노래 재생", description = "현재 " + entireText + "을(를) 재생하고 있습니다.", color = 0x00ff00))
         vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+        await ctx.send(embed = discord.Embed(title= "노래 재생", description = "현재 " + url + "을(를) 재생하고 있습니다.", color = 0x00ff00))
     else:
-        await ctx.send("이미 노래가 재생 중이라 노래를 재생할 수 없어요!")
-
+        await ctx.send("노래가 이미 재생되고 있습니다!")
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
