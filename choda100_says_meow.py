@@ -88,8 +88,8 @@ embed = discord.Embed(title = '음악 재생', description = '음악 재생을 �
 await ctx.send(embed=embed)
 
    data = self.DL.extract_info(url, download = False)
-    link = data['url']
-    title = data['title']
+   link = data['url']
+   title = data['title']
 
     ffmpeg_options = {
         'options': '-vn',
