@@ -164,14 +164,4 @@ class Music(commands.Cog):
         elif ctx.voice_client.is_playing():
             ctx.voice_client.stop()
 
-
-intents = discord.Intents.default()
-intents.message_content = True
-
-bot = commands.Bot(
-    command_prefix=commands.when_mentioned_or("초다"),
-    description='Relatively simple music bot example',
-    intents=intents,
-)
-
 bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y')
