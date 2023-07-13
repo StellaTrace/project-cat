@@ -39,6 +39,10 @@ async def informationofchodayoutubechennel(ctx):
 async def informationofchodasecondyoutubechennel(ctx):
     await ctx.send(f'{ctx.author.mention}, https://www.youtube.com/channel/UC1JEORrM7oPouwxoYeRKmjA')
 
+@bot.command(aliases=['디스코드서버'])
+async def informationofchodadiscordserver(ctx):
+    await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
+
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -165,19 +169,9 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(
-    command_prefix=commands.when_mentioned_or("!"),
+    command_prefix=commands.when_mentioned_or("초다"),
     description='Relatively simple music bot example',
     intents=intents,
 )
-
-
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    print('------')
-
-@bot.command(aliases=['디스코드서버'])
-async def informationofchodadiscordserver(ctx):
-    await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
 bot.run('MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y')
