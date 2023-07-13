@@ -42,7 +42,6 @@ async def informationofchodasecondyoutubechennel(ctx):
 @bot.command(aliases=['디스코드서버'])
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
-
 class Music(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -53,7 +52,7 @@ class Music(commands.Cog):
 
 def setup(client):
     client.add_cog(Music(client))
-
+	
 def __init__(self, client):
     option = {
             'format': 'bestaudio/best',
