@@ -52,7 +52,7 @@ class Music(commands.Cog):
 
 def setup(client):
     client.add_cog(Music(client))
-	
+    
 def __init__(self, client):
     option = {
             'format': 'bestaudio/best',
@@ -63,7 +63,7 @@ def __init__(self, client):
 
 @bot.command(aliases=['음악재생'])
 async def play_music(self, ctx, url):
-		#봇의 음성 채널 연결이 없으면
+        #봇의 음성 채널 연결이 없으면
     if ctx.voice_client is None: 
         # 명령어(ctx) 작성자(author)의 음성 채널에 연결 상태(voice)
         if ctx.author.voice:
@@ -125,11 +125,11 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
-	
+
     player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfYI")
     ctx.voice_client.play(player)
 
     embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
-	await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
