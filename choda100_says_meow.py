@@ -68,22 +68,20 @@ def __init__(self, client):
 
 @commands.command(name ="음악재생")
 async def play_music(self, ctx, url):
-
-    async def play_music(self, ctx, url):
-		#봇의 음성 채널 연결이 None이면 (없으면)
-        	if ctx.voice_client is None: 
-        	# 명령어(ctx) 작성자(author)의 음성 채널에 연결 상태(voice)
-        	if ctx.author.voice:
-            		# 봇을 명령어 작성자가 연결되어 있는 음성 채널에 연결
-            	await ctx.author.voice.channel.connect()
-        	else:
-            	embed = discord.Embed(title = '오류 발생', description = "음성 채널에 들어간 후 명령어를 사용 해 주세요!", color = discord.Color.red())
-            	await ctx.send(embed=embed)
-            	raise commands.CommandError("Author not connected to a voice channel.")
-    		# 봇이 음성채널에 연결되어 있고, 재생중이라면
-    		elif ctx.voice_client.is_playing():
-        	# 현재 재생중인 음원을 종료
-        		ctx.voice_client.stop()
+		#봇의 음성 채널 연결이 없으면
+    if ctx.voice_client is None: 
+        # 명령어(ctx) 작성자(author)의 음성 채널에 연결 상태(voice)
+        if ctx.author.voice:
+            # 봇을 명령어 작성자가 연결되어 있는 음성 채널에 연결
+            await ctx.author.voice.channel.connect()
+        else:
+            embed = discord.Embed(title = '오류 발생', description = "음성 채널에 들어간 후 명령어를 사용 해 주세요!", color = discord.Color.red())
+            await ctx.send(embed=embed)
+            raise commands.CommandError("Author not connected to a voice channel.")
+    # 봇이 음성채널에 연결되어 있고, 재생중이라면
+    elif ctx.voice_client.is_playing():
+        # 현재 재생중인 음원을 종료
+        ctx.voice_client.stop()
 	    
 	await ctx.send(url)
     	embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
