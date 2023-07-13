@@ -45,34 +45,45 @@ async def informationofchodasecondyoutubechennel(ctx):
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
-@bot.command()
-async def join(ctx)
-	if ctx.author.voice and ctx.author.voice.channel:
-    	channel = ctx.author.voice.channel
-    	await channel.connect()
-    else:
-    	await ctx.send("음성채널 없음")
+from youtube_dl import YoutubeDL
 
-@bot.command()
-async def 재생(ctx, *, url):
-    YDL_OPTIONS = {'format': 'bestaudio','noplaylist':'True'}
-    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+class Music(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+    
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("Music Cog is Ready")
 
-    if not voicechannel.is_playing():
-        with YoutubeDL(YDL_OPTIONS) as ydl:
-            info = ydl.extract_info(url, download=False)
-        URL = info['formats'][0]['url']
-        vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-        await ctx.send(embed = discord.Embed(title= "노래 재생", description = "현재 " + url + "을(를) 재생하고 있습니다.", color = 0x00ff00))
-    else:
-        await ctx.send("노래가 이미 재생되고 있습니다!")
+def setup(client):
+    client.add_cog(Music(client))
 
+def __init__(self, client):
+    option = {
+            'format': 'bestaudio/best',
+            'noplaylist': True,
+        }
+    self.client = client
+    self.DL = YoutubeDL(option)
 
-for VAR in 1wbLhpZzzWlYxga9JgTNxCaYXDufTYSzE 1z1BV8C3qDPHc0zxKvChv6QVrTmrPxVC7 1yHM3zwPMi7mPVYHNsMO-Vrx8FeHjCviO
-do
-    curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=$VAR" > /dev/null
-    curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=$VAR" -o "$VAR.pth"
-done
-rm cookie
-  
+@commands.command(name ="음악재생")
+async def play_music(self, ctx, url):
+    # ...
+
+async def play_music(self, ctx, url):
+		#봇의 음성 채널 연결이 None이면 (없으면)
+    if ctx.voice_client is None: 
+        # 명령어(ctx) 작성자(author)의 음성 채널에 연결 상태(voice)
+        if ctx.author.voice:
+            # 봇을 명령어 작성자가 연결되어 있는 음성 채널에 연결
+            await ctx.author.voice.channel.connect()
+        else:
+            embed = discord.Embed(title = '오류 발생', description = "음성 채널에 들어간 후 명령어를 사용 해 주세요!", color = discord.Color.red())
+            await ctx.send(embed=embed)
+            raise commands.CommandError("Author not connected to a voice channel.")
+    # 봇이 음성채널에 연결되어 있고, 재생중이라면
+    elif ctx.voice_client.is_playing():
+        # 현재 재생중인 음원을 종료
+        ctx.voice_client.stop()
+
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
