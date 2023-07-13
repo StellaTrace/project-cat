@@ -130,7 +130,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
     ctx.voice_client.play(player)
 
     embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
-        await ctx.send(embed=embed)
+	await ctx.send(embed=embed)
+
 
 
 
