@@ -80,6 +80,16 @@ async def play_music(self, ctx, url):
     await ctx.send(url)
     embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
     await ctx.send(embed=embed)
+
+    try:
+        url = msg[1]
+        url1 = re.match('(https?://)?(www\.)?((youtube\.(com))/watch\?v=([-\w]+)|youtu\.be/([-\w]+))', url) #정규 표현식을 사용해 url 검사
+        if url1 == None:
+            await client.send_message(message.channel, embed=discord.Embed(title=":no_entry_sign: url을 제대로 입력해주세요.",colour = 0x2EFEF7))
+            return
+    except IndexError:
+        await client.send_message(message.channel, embed=discord.Embed(title=":no_entry_sign: url을 입력해주세요.",colour = 0x2EFEF7))
+        return
 	
     data = self.DL.extract_info(url, download = False)
     link = data['url']
@@ -89,7 +99,6 @@ async def play_music(self, ctx, url):
         'options': '-vn',
         "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
     }
-    YDL_OPTIONS = {'format':'bestaudio', 'default-search': "ytdlsearch"}
 	
     player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfYI")
     ctx.voice_client.play(player)
