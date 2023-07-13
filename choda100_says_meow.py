@@ -23,6 +23,9 @@ async def 도움(ctx):
     embed.add_field(name="디스코드서버", value="초다 디스코드서버", inline=False)
     await ctx.send(embed=embed)
 
+def check(reaction, user):
+            return user == message.author
+
 @bot.command(aliases=['정보'])
 async def informationofchoda(ctx):
     await ctx.send(f'{ctx.author.mention}, 나는 컴퓨터를 가지고 노는 고양이야.')
