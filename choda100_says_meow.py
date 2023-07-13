@@ -20,8 +20,7 @@ async def 도움(ctx):
     embed.add_field(name="유튜브채널", value="초다 유튜브채널", inline=False)
     embed.add_field(name="또다른유튜브채널", value="초다 또다른유튜브채널", inline=False)
     await ctx.send(embed=embed)
-
-embed.add_field(name="디스코드서버", value="초다 디스코드서버", inline=False)
+    embed.add_field(name="디스코드서버", value="초다 디스코드서버", inline=False)
     await ctx.send(embed=embed)
 
 @bot.command(aliases=['정보'])
