@@ -44,39 +44,24 @@ async def informationofchodasecondyoutubechennel(ctx):
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
-@bot.command.play(name ="음악재생")
-async def play_music(self, ctx, url):
-		#봇의 음성 채널 연결이 없으면
-    if ctx.voice_client is None: 
-        # 명령어(ctx) 작성자(author)의 음성 채널에 연결 상태(voice)
-        if ctx.author.voice:
-            # 봇을 명령어 작성자가 연결되어 있는 음성 채널에 연결
-            await ctx.author.voice.channel.connect()
-        else:
-            embed = discord.Embed(title = '오류 발생', description = "음성 채널에 들어간 후 명령어를 사용 해 주세요!", color = discord.Color.red())
-            await ctx.send(embed=embed)
-            raise commands.CommandError("Author not connected to a voice channel.")
-    # 봇이 음성채널에 연결되어 있고, 재생중이라면
-    elif ctx.voice_client.is_playing():
-        # 현재 재생중인 음원을 종료
-        ctx.voice_client.stop()
-    await ctx.send(url)
-    embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
-    await ctx.send(embed=embed)
+@bot.command()
+async def play(ctx, url):
+    channel = ctx.author.voice.channel
+    if bot.voice_clients == []:
+    	await channel.connect()
+    	await ctx.send("connected to the voice channel, " + str(bot.voice_clients[0].channel))
 
-    data = self.DL.extract_info(url, download = False)
-    link = data['url']
-    title = data['title']
+    ydl_opts = {'format': 'bestaudio'}
+    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        URL = info['formats'][0]['url']
+    voice = bot.voice_clients[0]
+    voice.play(discord.FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
 
-    ffmpeg_options = {
-        'options': '-vn',
-        "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
-    }
-    player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "C:/ffmpeg/bin/ffmpeg")
-    ctx.voice_client.play(player)
-    
-    embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
-    await ctx.send(embed=embed)
+@bot.command()
+async def leave(ctx):
+    await bot.voice_clients[0].disconnect()
 
 async def main():
     async with bot:
