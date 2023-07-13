@@ -1,5 +1,4 @@
 import asyncio
-import paramiko
 import discord
 import yt_dlp as youtube_dl
 import requests
