@@ -84,8 +84,8 @@ async def play_music(self, ctx, url):
         ctx.voice_client.stop()
 	    
 await ctx.send(url)
-    embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
-    await ctx.send(embed=embed)
+embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
+await ctx.send(embed=embed)
 
    data = self.DL.extract_info(url, download = False)
     link = data['url']
