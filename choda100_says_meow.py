@@ -80,10 +80,6 @@ async def play_music(self, ctx, url):
     await ctx.send(url)
     embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
     await ctx.send(embed=embed)
-
-        FFPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-        YDL_OPTIONS = {'format':'bestaudio', 'default-search': "ytdlsearch"}
-        vc = ctx.voice_client
 	
     data = self.DL.extract_info(url, download = False)
     link = data['url']
@@ -93,6 +89,8 @@ async def play_music(self, ctx, url):
         'options': '-vn',
         "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
     }
+    YDL_OPTIONS = {'format':'bestaudio', 'default-search': "ytdlsearch"}
+        vc = ctx.voice_client
     player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfYI")
     ctx.voice_client.play(player)
     
