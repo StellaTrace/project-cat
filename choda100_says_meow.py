@@ -16,9 +16,12 @@ async def on_ready():
 @bot.command(aliases=['도움말'])
 async def 도움(ctx):
     embed = discord.Embed(title="poskBot", description="설명", color=0x4432a8)
-    embed.add_field(name="음성채널 입장", value="초다 play", inline=False)
-    embed.add_field(name="노래 일시중지", value="초다 pause", inline=False)
-    embed.add_field(name="음성채널 나가기", value="초다 leave", inline=False)
+    embed.add_field(name="정보", value="초다 정보", inline=False)
+    embed.add_field(name="유튜브채널", value="초다 유튜브채널", inline=False)
+    embed.add_field(name="또다른유튜브채널", value="초다 또다른유튜브채널", inline=False)
+    await ctx.send(embed=embed)
+
+embed.add_field(name="디스코드서버", value="초다 디스코드서버", inline=False)
     await ctx.send(embed=embed)
 
 @bot.command(aliases=['정보'])
@@ -33,7 +36,7 @@ async def informationofchodayoutubechennel(ctx):
 async def informationofchodasecondyoutubechennel(ctx):
     await ctx.send(f'{ctx.author.mention}, https://www.youtube.com/channel/UC1JEORrM7oPouwxoYeRKmjA')
     
-@bot.command(aliases=['디스코드 서버'])
+@bot.command(aliases=['디스코드서버'])
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
 
