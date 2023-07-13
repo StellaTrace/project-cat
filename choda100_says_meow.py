@@ -90,7 +90,7 @@ async def play_music(self, ctx, url):
         "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
     }
     YDL_OPTIONS = {'format':'bestaudio', 'default-search': "ytdlsearch"}
-        vc = ctx.voice_client
+	
     player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfYI")
     ctx.voice_client.play(player)
     
