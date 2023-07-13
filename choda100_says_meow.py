@@ -96,7 +96,7 @@ ffmpeg_options = {
         "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5"
     }
 player = discord.FFmpegPCMAudio(link, **ffmpeg_options, executable = "C:/ffmpeg/bin/ffmpeg")
-    ctx.voice_client.play(player)
+	ctx.voice_client.play(player)
     
     embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
     sawait ctx.send(embed=embed)
