@@ -1,7 +1,6 @@
 import asyncio
 import discord
 import yt_dlp as youtube_dl
-import requests
 
 from discord.ext import commands
 
