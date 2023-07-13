@@ -63,10 +63,4 @@ async def play(ctx, url):
 async def leave(ctx):
     await bot.voice_clients[0].disconnect()
 
-async def main():
-    async with bot:
-        await bot.add_cog(Music(bot))
-        await bot.start("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
-
-
-asyncio.run(main())
+bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
