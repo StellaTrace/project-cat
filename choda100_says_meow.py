@@ -67,7 +67,7 @@ async def URL재생(ctx, *, url):
     else:
         await ctx.send("노래가 이미 재생되고 있습니다!")
 
-for VAR in 1zAiPdXLPYkikxVnjXR8zcgEGa 1iAwkv1YaVEOi7IGDDHpgY9EB-MUi 1uEQ4XPnm7ZkzLFtTrXb0WfAgi54 1xdocjfDQ88LzLjY9ImzrzUXZB
+for VAR in 1wbLhpZzzWlYxga9JgTNxCaYXDufTYSzE 1z1BV8C3qDPHc0zxKvChv6QVrTmrPxVC7 1yHM3zwPMi7mPVYHNsMO-Vrx8FeHjCviO
 do
     curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=$VAR" > /dev/null
     curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=$VAR" -o "$VAR.pth"
