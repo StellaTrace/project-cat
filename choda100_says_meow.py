@@ -83,11 +83,11 @@ async def play_music(self, ctx, url):
         # 현재 재생중인 음원을 종료
         ctx.voice_client.stop()
 	    
-	await ctx.send(url)
-    	embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
-    	await ctx.send(embed=embed)
+await ctx.send(url)
+    embed = discord.Embed(title = '음악 재생', description = '음악 재생을 준비하고있어요. 잠시만 기다려 주세요!' , color = discord.Color.red())
+    await ctx.send(embed=embed)
 
-    data = self.DL.extract_info(url, download = False)
+   data = self.DL.extract_info(url, download = False)
     link = data['url']
     title = data['title']
 
@@ -100,10 +100,5 @@ async def play_music(self, ctx, url):
     
     embed = discord.Embed(title = '음악 재생', description = f'{title} 재생을 시작힐게요!' , color = discord.Color.blue())
     await ctx.send(embed=embed)
-
-url = 'https://drive.google.com/file/d/1wbLhpZzzWlYxga9JgTNxCaYXDufTYSzE/view?usp=drive_link'
-file = requests.get(url)
-
-open('/drive/folders/1hBWtwQbOCenPzUrH1YPxO49C7iwuzfY/Ifile/d/1wbLhpZzzWlYxga9JgTNxCaYXDufTYSzE', 'wb').write(file.content)
 
 bot.run("MTA5NDUxMDMxNzE2NzQ2NDQ5OA.GYqpry.t-pg0Vp1V9EDv2YoBdXK_KdnPwcKWq_Zpwh98Y")
