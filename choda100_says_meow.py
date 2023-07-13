@@ -43,7 +43,15 @@ async def informationofchodasecondyoutubechennel(ctx):
 @bot.command(aliases=['디스코드서버'])
 async def informationofchodadiscordserver(ctx):
     await ctx.send(f'{ctx.author.mention}, https://discord.com/invite/n5jfJYxwcP')
-    
+
+@bot.command()
+async def join(ctx)
+	if ctx.author.voice and ctx.author.voice.channel:
+    	channel = ctx.author.voice.channel
+    	await channel.connect()
+    else:
+    	await ctx.send("음성채널 없음")
+
 @bot.command()
 async def URL재생(ctx, *, url):
     YDL_OPTIONS = {'format': 'bestaudio','noplaylist':'True'}
